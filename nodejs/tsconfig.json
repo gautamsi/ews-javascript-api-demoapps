@@ -9,6 +9,7 @@
     },
     "compileOnSave": false,    
     "files": [
-		"app.ts"		
+		"app.ts",
+        "./scenarios/availability1.ts"	
 	]
 }

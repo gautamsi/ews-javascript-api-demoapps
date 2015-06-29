@@ -7571,6 +7571,7 @@ declare module "ews-javascript-api" {
 
 
     class NameResolutionCollection {
+        Items: NameResolution[];
         private service;
         private includesAllResolutions;
         private items;
@@ -8861,8 +8862,8 @@ declare module "ews-javascript-api" {
 
 
     class CalendarEvent extends ComplexProperty {
-        StartTime: Date;
-        EndTime: Date;
+        StartTime: DateTime;
+        EndTime: DateTime;
         FreeBusyStatus: LegacyFreeBusyStatus;
         Details: CalendarEventDetails;
         private startTime;
@@ -11830,6 +11831,7 @@ declare module "ews-javascript-api" {
     class ServiceResponseCollection<TResponse extends ServiceResponse> {
         Count: number;
         OverallResult: ServiceResult;
+        Responses: TResponse[];
         private responses;
         private overallResult;
         Add(response: TResponse): void;
