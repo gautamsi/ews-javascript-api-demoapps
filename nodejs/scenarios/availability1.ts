@@ -53,9 +53,9 @@ export class availability1 {
                 exch.GetUserAvailability(attendees, tmw, AvailabilityData.FreeBusyAndSuggestions, myOptions)
                         .then((freeBusyResults) => {
                                 console.log(StringHelper.Format("Availability for {0} and {1}", attendees[0].SmtpAddress, attendees[1].SmtpAddress));
-                                var heads = ["time suggestios".blue];
-                                attendees.forEach((entry) => { heads.push(entry.SmtpAddress.blue) });
-                                heads.push("Work Hour")
+                                var heads = ["time suggestios".cyan];
+                                attendees.forEach((entry) => { heads.push(entry.SmtpAddress.cyan) });
+                                heads.push("Work Hour".magenta)
                                 var table = new Table({
                                         head: heads
                                         //, colWidths: [100, 50]
@@ -80,7 +80,8 @@ export class availability1 {
                                                 while (row.length < attendees.length + 1) {
                                                         row.push("n/a".grey);
                                                 }
-                                                row.push(timeSuggestion.IsWorkTime.toString());
+                                                var workhour = timeSuggestion.IsWorkTime ? "true".green : "false".yellow;
+                                                row.push(workhour);
                                                 table.push(row);
                                         }
                                 }
