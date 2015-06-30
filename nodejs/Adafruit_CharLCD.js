@@ -51,11 +51,11 @@ var Adafruit_CharLCD = (function () {
             throw new Error("cannot work without gpio);");
         }
         this.GPIO.setMode(GPIO.MODE_BCM);
-        this.GPIO.setup(this.pin_e, GPIO.DIR_OUT, function (msg) { console.log("Error in setup: " + msg); });
-        this.GPIO.setup(this.pin_rs, GPIO.DIR_OUT, function (msg) { console.log("Error in setup: " + msg); });
+        this.GPIO.setup(this.pin_e, GPIO.DIR_OUT, function (msg, extra) { console.log("Error in setup: " + msg + extra); });
+        this.GPIO.setup(this.pin_rs, GPIO.DIR_OUT, function (msg, extra) { console.log("Error in setup: " + msg + extra); });
         for (var _i = 0, _a = this.pins_db; _i < _a.length; _i++) {
             var pin = _a[_i];
-            this.GPIO.setup(pin, GPIO.DIR_OUT, function (msg) { console.log("Error in setup: " + msg); });
+            this.GPIO.setup(pin, GPIO.DIR_OUT, function (msg, extra) { console.log("Error in setup: " + msg + extra); });
         }
         this.write4bits(0x33); //# initialization
         this.write4bits(0x32); //# initialization

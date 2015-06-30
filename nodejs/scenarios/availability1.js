@@ -15,7 +15,6 @@ var availability1 = (function () {
         var exch = new ews_javascript_api_1.ExchangeService(ews_javascript_api_1.ExchangeVersion.Exchange2013);
         exch.Credentials = new ews_javascript_api_1.ExchangeCredentials(credentials.userName, credentials.password);
         exch.Url = new ews_javascript_api_1.Uri("https://outlook.office365.com/Ews/Exchange.asmx");
-        ews_javascript_api_1.EwsLogging.DebugLogEnabled = false;
         var attendee1 = new ews_javascript_api_1.AttendeeInfo("gstest@singhspro.onmicrosoft.com");
         attendee1.AttendeeType = ews_javascript_api_1.MeetingAttendeeType.Organizer;
         var attendee2 = new ews_javascript_api_1.AttendeeInfo("gs@singhspro.onmicrosoft.com");

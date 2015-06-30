@@ -14,8 +14,7 @@ export class nameResolution1 {
                 var exch = new ExchangeService(ExchangeVersion.Exchange2013);
                 exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
                 exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
-                EwsLogging.DebugLogEnabled = false;
-
+                
                 var searchstring: string = "gstest";
                 if (argv && argv["s"]) {
                         searchstring = argv["s"];

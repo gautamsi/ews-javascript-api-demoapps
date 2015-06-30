@@ -5,6 +5,10 @@
 
 import {availability1} from "./scenarios/availability1";
 import {nameResolution1} from "./scenarios/nameResolution1";
+import {inbox1} from "./scenarios/inbox1";
+
+import {EwsLogging} from "ews-javascript-api";
+
 
 import yargs = require('yargs');
 var argv = yargs.options("a", { type: 'array' }).argv;//.options("run", { type: 'number' }).argv;
@@ -15,7 +19,15 @@ var credentials = require("./credentials");
 function scn_availability() {
 
 }
-console.log(argv);
+
+if(argv["v"]){	
+EwsLogging.DebugLogEnabled = true;
+}
+else{
+EwsLogging.DebugLogEnabled = false;	
+}
+
+//console.log(argv);
 if (argv["run"]) {
 	switch (argv["run"].toLowerCase()) {
 		case "availability1":
@@ -23,11 +35,15 @@ if (argv["run"]) {
 			break;
 		case "nameresolution1":
 			nameResolution1.run(credentials, argv);
+			break;
+		case "inbox1":
+			inbox1.run(credentials, argv);
+			break;
 		default:
-		console.log("scenario not found")
+			console.log("scenario not found")
 			break;
 	}
 }
 else {
-	nameResolution1.run(credentials, argv);
+	inbox1.run(credentials, argv);
 }

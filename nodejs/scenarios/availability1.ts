@@ -14,9 +14,7 @@ export class availability1 {
                 var exch = new ExchangeService(ExchangeVersion.Exchange2013);
                 exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
                 exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
-                EwsLogging.DebugLogEnabled = false;
-
-
+                
                 var attendee1 = new AttendeeInfo("gstest@singhspro.onmicrosoft.com");
                 attendee1.AttendeeType = MeetingAttendeeType.Organizer;
                 var attendee2 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");

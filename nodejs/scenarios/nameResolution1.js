@@ -15,7 +15,6 @@ var nameResolution1 = (function () {
         var exch = new ews_javascript_api_1.ExchangeService(ews_javascript_api_1.ExchangeVersion.Exchange2013);
         exch.Credentials = new ews_javascript_api_1.ExchangeCredentials(credentials.userName, credentials.password);
         exch.Url = new ews_javascript_api_1.Uri("https://outlook.office365.com/Ews/Exchange.asmx");
-        ews_javascript_api_1.EwsLogging.DebugLogEnabled = false;
         var searchstring = "gstest";
         if (argv && argv["s"]) {
             searchstring = argv["s"];

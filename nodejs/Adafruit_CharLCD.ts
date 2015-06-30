@@ -65,11 +65,11 @@ export class Adafruit_CharLCD {
 
 
         this.GPIO.setMode(GPIO.MODE_BCM);
-        this.GPIO.setup(this.pin_e, GPIO.DIR_OUT, (msg: string) => { console.log("Error in setup: " + msg) });
-        this.GPIO.setup(this.pin_rs, GPIO.DIR_OUT, (msg: string) => { console.log("Error in setup: " + msg) });
+        this.GPIO.setup(this.pin_e, GPIO.DIR_OUT, (msg: string, extra: any) => { console.log("Error in setup: " + msg + extra) });
+        this.GPIO.setup(this.pin_rs, GPIO.DIR_OUT, (msg: string, extra: any) => { console.log("Error in setup: " + msg + extra) });
 
         for (var pin of this.pins_db) {
-            this.GPIO.setup(pin, GPIO.DIR_OUT, (msg: string) => { console.log("Error in setup: " + msg) });
+            this.GPIO.setup(pin, GPIO.DIR_OUT, (msg: string, extra: any) => { console.log("Error in setup: " + msg + extra) });
         }
         this.write4bits(0x33)  //# initialization
         this.write4bits(0x32)  //# initialization
