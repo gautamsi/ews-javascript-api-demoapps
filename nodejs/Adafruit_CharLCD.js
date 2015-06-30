@@ -1,14 +1,14 @@
 var sleep = require("sleep");
 var Adafruit_CharLCD = (function () {
-    function Adafruit_CharLCD(pin_rs, pin_e, pins_db, GPIO) {
+    function Adafruit_CharLCD(GPIO, pin_rs, pin_e, pins_db) {
+        if (GPIO === void 0) { GPIO = null; }
         if (pin_rs === void 0) { pin_rs = 25; }
         if (pin_e === void 0) { pin_e = 24; }
         if (pins_db === void 0) { pins_db = [23, 17, 21, 22]; }
-        if (GPIO === void 0) { GPIO = null; }
+        this.GPIO = GPIO;
         this.pin_rs = pin_rs;
         this.pin_e = pin_e;
         this.pins_db = pins_db;
-        this.GPIO = GPIO;
         //# commands
         this.LCD_CLEARDISPLAY = 0x01;
         this.LCD_RETURNHOME = 0x02;
@@ -50,12 +50,12 @@ var Adafruit_CharLCD = (function () {
         if (GPIO === null) {
             throw new Error("cannot work without gpio);");
         }
-        this.GPIO.setmode(GPIO.BCM);
-        this.GPIO.setup(this.pin_e, GPIO.OUT);
-        this.GPIO.setup(this.pin_rs, GPIO.OUT);
+        this.GPIO.setMode(GPIO.MODE_BCM);
+        this.GPIO.setup(this.pin_e, GPIO.DIR_OUT, function (msg) { console.log("Error in setup: " + msg); });
+        this.GPIO.setup(this.pin_rs, GPIO.DIR_OUT, function (msg) { console.log("Error in setup: " + msg); });
         for (var _i = 0, _a = this.pins_db; _i < _a.length; _i++) {
             var pin = _a[_i];
-            this.GPIO.setup(pin, GPIO.OUT);
+            this.GPIO.setup(pin, GPIO.DIR_OUT, function (msg) { console.log("Error in setup: " + msg); });
         }
         this.write4bits(0x33); //# initialization
         this.write4bits(0x32); //# initialization
@@ -154,39 +154,39 @@ var Adafruit_CharLCD = (function () {
         /**""" Send command to LCD """*/
         this.delayMicroseconds(1000); //# 1000 microsecond sleep
         var bitsBinary = zfill(bits.toString(2), 8); // [2:]. zfill(8)
-        this.GPIO.output(this.pin_rs, char_mode);
+        this.GPIO.output(this.pin_rs, char_mode, function (msg) { console.log("Error in output: " + msg); });
         for (var _i = 0, _a = this.pins_db; _i < _a.length; _i++) {
             var pin = _a[_i];
-            this.GPIO.output(pin, false);
+            this.GPIO.output(pin, false, function (msg) { console.log("Error in output: " + msg); });
         }
         for (var _b = 0, _c = range(4); _b < _c.length; _b++) {
             var i = _c[_b];
             if (bitsBinary[i] == "1")
-                this.GPIO.output(this.pins_db.reverse()[i], true);
+                this.GPIO.output(this.pins_db.reverse()[i], true, function (msg) { console.log("Error in output: " + msg); });
         }
         this.pulseEnable();
         for (var _d = 0, _e = this.pins_db; _d < _e.length; _d++) {
             var pin = _e[_d];
-            this.GPIO.output(pin, false);
+            this.GPIO.output(pin, false, function (msg) { console.log("Error in output: " + msg); });
         }
         for (var _f = 0, _g = range(4, 8); _f < _g.length; _f++) {
             var i = _g[_f];
             if (bitsBinary[i] == "1") {
-                this.GPIO.output(this.pins_db.reverse()[i - 4], true);
+                this.GPIO.output(this.pins_db.reverse()[i - 4], true, function (msg) { console.log("Error in output: " + msg); });
             }
         }
         this.pulseEnable();
     };
     Adafruit_CharLCD.prototype.delayMicroseconds = function (microseconds) {
-        var seconds = microseconds / 1000000; //# divide microseconds by 1 million for seconds
-        sleep.sleep(seconds);
+        //var seconds = microseconds / 1000000;  //# divide microseconds by 1 million for seconds
+        sleep.usleep(microseconds);
     };
     Adafruit_CharLCD.prototype.pulseEnable = function () {
-        this.GPIO.output(this.pin_e, false);
+        this.GPIO.output(this.pin_e, false, function (msg) { console.log("Error in output: " + msg); });
         this.delayMicroseconds(1); //# 1 microsecond pause - enable pulse must be > 450ns
-        this.GPIO.output(this.pin_e, true);
+        this.GPIO.output(this.pin_e, true, function (msg) { console.log("Error in output: " + msg); });
         this.delayMicroseconds(1); //# 1 microsecond pause - enable pulse must be > 450ns
-        this.GPIO.output(this.pin_e, false);
+        this.GPIO.output(this.pin_e, false, function (msg) { console.log("Error in output: " + msg); });
         this.delayMicroseconds(1); //# commands need > 37us to settle
     };
     Adafruit_CharLCD.prototype.message = function (text) {
@@ -201,6 +201,7 @@ var Adafruit_CharLCD = (function () {
     };
     return Adafruit_CharLCD;
 })();
+exports.Adafruit_CharLCD = Adafruit_CharLCD;
 function range(start, stop) {
     if (stop === void 0) { stop = NaN; }
     var end = start;

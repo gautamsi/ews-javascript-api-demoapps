@@ -54,7 +54,7 @@ export class Adafruit_CharLCD {
     numlines: number;
     row_offsets: number[];
 
-    constructor(public pin_rs = 25, public pin_e = 24, public pins_db = [23, 17, 21, 22], public GPIO = null) {
+    constructor(public GPIO = null, public pin_rs = 25, public pin_e = 24, public pins_db = [23, 17, 21, 22]) {
         //# Emulate the old behavior of using RPi.GPIO if we haven't been given
         //# an explicit GPIO interface to use
         if (GPIO === null) {
@@ -64,12 +64,12 @@ export class Adafruit_CharLCD {
         }
 
 
-        this.GPIO.setMode(GPIO.MODE_BCM)
-        this.GPIO.setup(this.pin_e, GPIO.DIR_OUT)
-        this.GPIO.setup(this.pin_rs, GPIO.DIR_OUT)
+        this.GPIO.setMode(GPIO.MODE_BCM);
+        this.GPIO.setup(this.pin_e, GPIO.DIR_OUT, (msg: string) => { console.log("Error in setup: " + msg) });
+        this.GPIO.setup(this.pin_rs, GPIO.DIR_OUT, (msg: string) => { console.log("Error in setup: " + msg) });
 
         for (var pin of this.pins_db) {
-            this.GPIO.setup(pin, GPIO.DIR_OUT)
+            this.GPIO.setup(pin, GPIO.DIR_OUT, (msg: string) => { console.log("Error in setup: " + msg) });
         }
         this.write4bits(0x33)  //# initialization
         this.write4bits(0x32)  //# initialization
@@ -170,36 +170,36 @@ export class Adafruit_CharLCD {
     write4bits(bits: number, char_mode = false) {
         /**""" Send command to LCD """*/
         this.delayMicroseconds(1000)  //# 1000 microsecond sleep
-        var bitsBinary = zfill(bits.toString(2),8);// [2:]. zfill(8)
-        this.GPIO.output(this.pin_rs, char_mode)
+        var bitsBinary = zfill(bits.toString(2), 8);// [2:]. zfill(8)
+        this.GPIO.output(this.pin_rs, char_mode, (msg: string) => { console.log("Error in output: " + msg) });
         for (var pin of this.pins_db) {
-            this.GPIO.output(pin, false)
+            this.GPIO.output(pin, false, (msg: string) => { console.log("Error in output: " + msg) });
         }
         for (var i of range(4)) {
             if (bitsBinary[i] == "1")
-                this.GPIO.output(this.pins_db.reverse()[i], true);
+                this.GPIO.output(this.pins_db.reverse()[i], true, (msg: string) => { console.log("Error in output: " + msg) });
         }
         this.pulseEnable()
         for (var pin of this.pins_db) {
-            this.GPIO.output(pin, false);
+            this.GPIO.output(pin, false, (msg: string) => { console.log("Error in output: " + msg) });
         }
         for (var i of range(4, 8)) {
             if (bitsBinary[i] == "1") {
-                this.GPIO.output(this.pins_db.reverse()[i - 4], true);
+                this.GPIO.output(this.pins_db.reverse()[i - 4], true, (msg: string) => { console.log("Error in output: " + msg) });
             }
         }
         this.pulseEnable()
     }
     delayMicroseconds(microseconds) {
-        var seconds = microseconds / 1000000;  //# divide microseconds by 1 million for seconds
-        sleep.sleep(seconds);
+        //var seconds = microseconds / 1000000;  //# divide microseconds by 1 million for seconds
+        sleep.usleep(microseconds);
     }
     pulseEnable() {
-        this.GPIO.output(this.pin_e, false);
+        this.GPIO.output(this.pin_e, false, (msg: string) => { console.log("Error in output: " + msg) });
         this.delayMicroseconds(1);      //# 1 microsecond pause - enable pulse must be > 450ns
-        this.GPIO.output(this.pin_e, true);
+        this.GPIO.output(this.pin_e, true, (msg: string) => { console.log("Error in output: " + msg) });
         this.delayMicroseconds(1);      //# 1 microsecond pause - enable pulse must be > 450ns
-        this.GPIO.output(this.pin_e, false);
+        this.GPIO.output(this.pin_e, false, (msg: string) => { console.log("Error in output: " + msg) });
         this.delayMicroseconds(1);     //# commands need > 37us to settle
     }
     message(text: string) {
