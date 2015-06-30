@@ -13,7 +13,7 @@ var inbox1 = (function () {
     function inbox1() {
     }
     Object.defineProperty(inbox1, "line2", {
-        get: function () { return "lst " + ews_javascript_api_1.DateTime.Now.Format("HH:mm:ss") + " " + inbox1.lastTotalCount; },
+        get: function () { return "lst " + inbox1.lastCheckTime.Format("HH:mm:ss") + " " + inbox1.lastTotalCount; },
         enumerable: true,
         configurable: true
     });
@@ -28,9 +28,17 @@ var inbox1 = (function () {
         exch.Credentials = new ews_javascript_api_1.ExchangeCredentials(credentials.userName, credentials.password);
         exch.Url = new ews_javascript_api_1.Uri("https://outlook.office365.com/Ews/Exchange.asmx");
         if (argv && argv["endless"]) {
+            var ms = 5000;
+            if (argv["ms"]) {
+                ms = ews_javascript_api_1.Convert.toNumber(argv["ms"]);
+                if (ms === NaN || ms < 5)
+                    ms = 5;
+                if (ms > 20)
+                    ms = 20;
+            }
             setTimeout(function () {
                 inbox1.run(credentials, argv);
-            }, 5000);
+            }, ms * 1000);
         }
         inbox1.line1 = "checking...";
         inbox1.writemsg();
@@ -42,6 +50,8 @@ var inbox1 = (function () {
             });
             inbox1.line1 = inbox1.lastTotalCount >= folder.TotalCount ? "no new mail" : "new mail:" + (folder.TotalCount - inbox1.lastTotalCount);
             inbox1.lastTotalCount = folder.TotalCount;
+            inbox1.lastCheckTime = ews_javascript_api_1.DateTime.Now;
+            inbox1.writemsg();
             table.push(["Display Name", folder.DisplayName]);
             table.push(["Unread Count", folder.UnreadCount]);
             table.push(["Total Count", folder.TotalCount]);
@@ -67,6 +77,7 @@ var inbox1 = (function () {
     };
     inbox1.lastTotalCount = 0;
     inbox1.line1 = "checking...";
+    inbox1.lastCheckTime = ews_javascript_api_1.DateTime.Now;
     return inbox1;
 })();
 exports.inbox1 = inbox1;

@@ -18,7 +18,7 @@
     "chai-as-promised": "^5.1.0",
     "cli-table": "^0.3.1",
     "debug": "^2.0.0",
-    "ews-javascript-api": "D:\\dr\\gh\\ews-javascript-api\\build\\output\\node\\ews-javascript-api-0.1.7.tgz",
+    "ews-javascript-api": "^0.1.7",
     "gulp": "^3.8.10",
     "gulp-if": "^1.2.5",
     "gulp-load-plugins": "^0.7.0",
