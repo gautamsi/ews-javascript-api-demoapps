@@ -2,7 +2,7 @@
 import sleep = require("sleep");
 
 
-class Adafruit_CharLCD {
+export class Adafruit_CharLCD {
     
 
 
@@ -64,12 +64,12 @@ class Adafruit_CharLCD {
         }
 
 
-        this.GPIO.setmode(GPIO.BCM)
-        this.GPIO.setup(this.pin_e, GPIO.OUT)
-        this.GPIO.setup(this.pin_rs, GPIO.OUT)
+        this.GPIO.setMode(GPIO.MODE_BCM)
+        this.GPIO.setup(this.pin_e, GPIO.DIR_OUT)
+        this.GPIO.setup(this.pin_rs, GPIO.DIR_OUT)
 
         for (var pin of this.pins_db) {
-            this.GPIO.setup(pin, GPIO.OUT)
+            this.GPIO.setup(pin, GPIO.DIR_OUT)
         }
         this.write4bits(0x33)  //# initialization
         this.write4bits(0x32)  //# initialization
