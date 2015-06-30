@@ -10,6 +10,8 @@
     "compileOnSave": false,    
     "files": [
 		"app.ts",
-        "./scenarios/availability1.ts"	
+        "./Adafruit_CharLCD.ts",	
+        "./scenarios/availability1.ts"	,
+        "./scenarios/nameResolution1.ts"
 	]
 }
