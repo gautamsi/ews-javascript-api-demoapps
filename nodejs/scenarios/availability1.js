@@ -15,11 +15,11 @@ var availability1 = (function () {
         var exch = new ews_javascript_api_1.ExchangeService(ews_javascript_api_1.ExchangeVersion.Exchange2013);
         exch.Credentials = new ews_javascript_api_1.ExchangeCredentials(credentials.userName, credentials.password);
         exch.Url = new ews_javascript_api_1.Uri("https://outlook.office365.com/Ews/Exchange.asmx");
-        var attendee1 = new ews_javascript_api_1.AttendeeInfo("gstest@singhspro.onmicrosoft.com");
+        var attendee1 = new ews_javascript_api_1.AttendeeInfo("gstest@singhs.pro");
         attendee1.AttendeeType = ews_javascript_api_1.MeetingAttendeeType.Organizer;
         var attendee2 = new ews_javascript_api_1.AttendeeInfo("gs@singhspro.onmicrosoft.com");
         attendee2.AttendeeType = ews_javascript_api_1.MeetingAttendeeType.Required;
-        var tmw = new ews_javascript_api_1.TimeWindow(ews_javascript_api_1.DateTime.Now.Add(0.6, 'd'), ews_javascript_api_1.DateTime.Now.Add(3, 'd'));
+        var tmw = new ews_javascript_api_1.TimeWindow(ews_javascript_api_1.DateTime.Now.Add(1, 'd'), ews_javascript_api_1.DateTime.Now.Add(3, 'd'));
         var attendees = [attendee1];
         if (argv && argv["a"]) {
             var attendeelist = argv["a"];
@@ -41,11 +41,11 @@ var availability1 = (function () {
             attendees = [attendee1, attendee2]; //, att3, att4];
         }
         var myOptions = new ews_javascript_api_1.AvailabilityOptions();
-        myOptions.MeetingDuration = 30;
-        myOptions.MaximumNonWorkHoursSuggestionsPerDay = 4;
+        myOptions.MeetingDuration = 60;
+        myOptions.MaximumNonWorkHoursSuggestionsPerDay = 8;
         myOptions.GoodSuggestionThreshold = 20;
         myOptions.MinimumSuggestionQuality = ews_javascript_api_1.SuggestionQuality.Poor;
-        myOptions.DetailedSuggestionsWindow = new ews_javascript_api_1.TimeWindow(ews_javascript_api_1.DateTime.Now.Add(0.6, 'd'), ews_javascript_api_1.DateTime.Now.Add(3, 'd'));
+        myOptions.DetailedSuggestionsWindow = new ews_javascript_api_1.TimeWindow(ews_javascript_api_1.DateTime.Now.Add(1, 'd'), ews_javascript_api_1.DateTime.Now.Add(3, 'd'));
         exch.GetUserAvailability(attendees, tmw, ews_javascript_api_1.AvailabilityData.FreeBusyAndSuggestions, myOptions)
             .then(function (freeBusyResults) {
             console.log(ews_javascript_api_1.StringHelper.Format("Availability for {0} and {1}", attendees[0].SmtpAddress, attendees[1].SmtpAddress));

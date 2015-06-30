@@ -15,12 +15,12 @@ export class availability1 {
                 exch.Credentials = new ExchangeCredentials(credentials.userName, credentials.password);
                 exch.Url = new Uri("https://outlook.office365.com/Ews/Exchange.asmx");
                 
-                var attendee1 = new AttendeeInfo("gstest@singhspro.onmicrosoft.com");
+                var attendee1 = new AttendeeInfo("gstest@singhs.pro");
                 attendee1.AttendeeType = MeetingAttendeeType.Organizer;
                 var attendee2 = new AttendeeInfo("gs@singhspro.onmicrosoft.com");
                 attendee2.AttendeeType = MeetingAttendeeType.Required;
 
-                var tmw = new TimeWindow(DateTime.Now.Add(0.6, 'd'), DateTime.Now.Add(3, 'd'));
+                var tmw = new TimeWindow(DateTime.Now.Add(1, 'd'), DateTime.Now.Add(3, 'd'));
 
                 var attendees = [attendee1];
                 if (argv && argv["a"]) {
@@ -41,12 +41,14 @@ export class availability1 {
                 else {
                         attendees = [attendee1, attendee2]; //, att3, att4];
                 }
+                
+                
                 var myOptions = new AvailabilityOptions();
-                myOptions.MeetingDuration = 30;
-                myOptions.MaximumNonWorkHoursSuggestionsPerDay = 4;
+                myOptions.MeetingDuration = 60;
+                myOptions.MaximumNonWorkHoursSuggestionsPerDay = 8;
                 myOptions.GoodSuggestionThreshold = 20;
                 myOptions.MinimumSuggestionQuality = SuggestionQuality.Poor;
-                myOptions.DetailedSuggestionsWindow = new TimeWindow(DateTime.Now.Add(0.6, 'd'), DateTime.Now.Add(3, 'd'));
+                myOptions.DetailedSuggestionsWindow = new TimeWindow(DateTime.Now.Add(1, 'd'), DateTime.Now.Add(3, 'd'));
 
                 exch.GetUserAvailability(attendees, tmw, AvailabilityData.FreeBusyAndSuggestions, myOptions)
                         .then((freeBusyResults) => {
