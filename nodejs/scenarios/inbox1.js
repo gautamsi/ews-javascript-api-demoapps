@@ -28,17 +28,17 @@ var inbox1 = (function () {
         exch.Credentials = new ews_javascript_api_1.ExchangeCredentials(credentials.userName, credentials.password);
         exch.Url = new ews_javascript_api_1.Uri("https://outlook.office365.com/Ews/Exchange.asmx");
         if (argv && argv["endless"]) {
-            var ms = 5000;
+            var seconds = 5;
             if (argv["ms"]) {
-                ms = ews_javascript_api_1.Convert.toNumber(argv["ms"]);
-                if (ms === NaN || ms < 5)
-                    ms = 5;
-                if (ms > 20)
-                    ms = 20;
+                seconds = ews_javascript_api_1.Convert.toNumber(argv["ms"]);
+                if (seconds === NaN || seconds < 5)
+                    seconds = 5;
+                if (seconds > 20)
+                    seconds = 20;
             }
             setTimeout(function () {
                 inbox1.run(credentials, argv);
-            }, ms * 1000);
+            }, seconds * 1000);
         }
         inbox1.line1 = "checking...";
         inbox1.writemsg();
